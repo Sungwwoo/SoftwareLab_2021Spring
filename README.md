@@ -1,2 +1,2 @@
-# KHU Softwarelab
-## 2021 Spring
+# Softwarelab
+KHU 2021 Spring
