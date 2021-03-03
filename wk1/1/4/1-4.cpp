@@ -1,8 +1,9 @@
 #include <iostream>
 #include <fstream>
 #include <cmath>
-#define PI 3.141592
 using namespace std;
+
+#define PI 3.141592
 
 int main(){
     ofstream out1("220.txt");
