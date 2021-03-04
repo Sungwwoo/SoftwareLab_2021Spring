@@ -18,6 +18,7 @@ int main(){
         return -1;
     }
 
+    // 구구단 5단 작성
     writeMultTable(out1, 5);
 
     // Sprint 2
@@ -28,6 +29,7 @@ int main(){
         return -1;
     }
 
+    // 2의 제곱수 작성
     writePower(xx, 2);
 
     // Sprint 3: In Excel
@@ -47,6 +49,7 @@ int main(){
     createData(out2, 440., f_s, A);
     createData(out2, 600., f_s, A);
 
+    // Extra
     ofstream out3 ("LowSampling.txt");
 
     if (!out3){

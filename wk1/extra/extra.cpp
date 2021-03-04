@@ -1,5 +1,5 @@
-#include <iostream>
 #include <fstream>
+#include <iostream>
 #include <cmath>
 using namespace std;
 
@@ -19,14 +19,22 @@ int main(){
     
     ofstream myWave ("airplane.wav", ios::binary | ios::out);
     ifstream xx("Beatles.wav", ios::binary | ios::in);
-   
+
+    if (!myWave){
+        cout << "Cannot access file." << endl;
+        return -1;
+    }
+    if (!xx){
+        cout << "Cannot access file." << endl;
+        return -1;
+    }
     waveHeader myHeader;
     xx.read((char*)&myHeader, sizeof(waveHeader));
     xx.close();
     
     myHeader.numChannels = 1;
     int n = myHeader.sampleRate;
-    
+    cout << n << endl;
     float dt = 1. / 44100.;
     float A = 10000.;
     float t;
@@ -42,7 +50,7 @@ int main(){
     // 레
     f = 293.665;
     short dataD[44100];
-    for (int i=n; i<n; i++){
+    for (int i=0; i<n; i++){
         t = i * dt;
         dataD[i] = (short)(A * sin(2 * PI * f * t));
     }
@@ -50,7 +58,7 @@ int main(){
     // 미
     f = 329.627;
     short dataE[44100];
-    for (int i=n; i<n; i++){
+    for (int i=0; i<n; i++){
         t = i * dt;
         dataE[i] = (short)(A * sin(2 * PI * f * t));
     }
@@ -66,13 +74,14 @@ int main(){
         else if (i < 4 * n)                 // 레
             data[i] = dataD[i % n];
         else                                // 미 3번
-            if (i % n > 4100)
+            if (i % n > 40000)
                 data[i] = 0;
             else
                 data[i] = dataE[i % n];
     }
     myWave.write((char*) &myHeader, sizeof(waveHeader));
     myWave.write((char*) data, sizeof(short) * 7 * n * myHeader.numChannels);
+
     myWave.close();
 
     return 0;
