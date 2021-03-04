@@ -17,6 +17,7 @@ public:
 
 int main(){
     
+    // Sprint 1, 2
     ofstream myData ("mydata.wav", ios::binary | ios::out);
     
     short data[44100];
@@ -32,8 +33,12 @@ int main(){
     myData.write((char*) data, sizeof(short) * n);
     myData.close();
 
+    // Sprint 3, 4
     ifstream xx("Beatles.wav", ios::binary | ios::in);
-    ofstream myWave ("mywave.wav", ios::binary | ios::out);
+    if (!xx){
+        cout << "Cannot access file." << endl;
+        return -1;
+    }
     
     waveHeader myHeader;
     xx.read((char*)&myHeader, sizeof(waveHeader));
@@ -41,8 +46,8 @@ int main(){
     xx.close();
 
     myHeader.numChannels = 1;
-    n = myHeader.sampleRate;
-    cout << "NumChannels: " << myHeader.numChannels << endl;
+
+    ofstream myWave ("mywave.wav", ios::binary | ios::out);
     myWave.write((char*) &myHeader, sizeof(waveHeader));
     myWave.write((char*) data, sizeof(short) * n * myHeader.numChannels);
     myWave.close();
