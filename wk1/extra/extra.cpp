@@ -28,6 +28,7 @@ int main(){
         cout << "Cannot access file." << endl;
         return -1;
     }
+    
     waveHeader myHeader;
     xx.read((char*)&myHeader, sizeof(waveHeader));
     xx.close();
