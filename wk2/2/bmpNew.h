@@ -49,7 +49,7 @@ bool WriteBmp(const char *FileName, unsigned char *Image1D, int nW, int nH) {
 	size = GetBmp24Size(nW, nH);
 	dwBitsSize = sizeof(BITMAPFILEHEADER_) + sizeof(BITMAPINFOHEADER_) + size;
 
-	// Çì´õ Á¤º¸ ÀúÀå
+	// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	BITMAPINFOHEADER_ bmiHeader;
 	bmiHeader.biSize = sizeof(BITMAPINFOHEADER_);
 	bmiHeader.biWidth = nW;
