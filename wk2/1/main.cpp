@@ -12,10 +12,10 @@ int main(){
 	float dy = (2 * PI) / 20;
 
 	for (int i = 0; i < 20; i ++){
-		row[i] = sin(i * dx);
+		row[i] = i * dx;
 	}
 	for (int i = 0; i < 20; i ++){
-		col[i] = sin(i * dy);
+		col[i] = i * dy;
 	}
 	
 	ofstream out ("output.txt");
@@ -34,7 +34,7 @@ int main(){
 	for (int i = 0; i < 20; i ++){
 		out << col[i] << "\t";
 		for (int j = 0; j < 20; j ++){
-			out << col[i] * row[j] << "\t";
+			out << sin(col[i]) * sin(row[j]) << "\t";
 		}
 		out << endl;
 	}

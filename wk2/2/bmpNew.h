@@ -1,6 +1,7 @@
 #pragma once
 #include <fstream> // suh
 using namespace std; // suh
+
 #pragma pack(push, 1)
 typedef struct tagBITMAPFILEHEADER_ {
 	unsigned short		bfType;
@@ -25,10 +26,10 @@ typedef struct tagBITMAPINFOHEADER_ {
 } BITMAPINFOHEADER_;
 
 typedef struct tagRGBQUAD_ {
-	unsigned char    rgbBlue;
-	unsigned char    rgbGreen;
-	unsigned char    rgbRed;
-	unsigned char    rgbReserved;
+	unsigned char    	rgbBlue;
+	unsigned char    	rgbGreen;
+	unsigned char    	rgbRed;
+	unsigned char    	rgbReserved;
 } RGBQUAD_;
 #pragma pack(pop)
 
@@ -43,8 +44,8 @@ int GetBmp24Pos(int nW, int nH, int x, int y) {
 }
 
 bool WriteBmp(const char *FileName, unsigned char *Image1D, int nW, int nH) {
-	unsigned long dwBitsSize;
-	unsigned long size;
+	unsigned int dwBitsSize;
+	unsigned int size;
 
 	size = GetBmp24Size(nW, nH);
 	dwBitsSize = sizeof(BITMAPFILEHEADER_) + sizeof(BITMAPINFOHEADER_) + size;
@@ -170,7 +171,7 @@ unsigned char* ReadBmp(const char *FileName, int *pW, int *pH) {
 		fp2.read((char*)Image1D, *pH * ((*pW * 3 + 3) / 4 * 4)); // suh
 		//fread(Image1D, sizeof(unsigned char), *pH*((*pW * 3 + 3) / 4 * 4), fp);
 
-	long Row, Col;
+	int Row, Col;
 
 	for (Row = 0; Row < bmiHeader.biHeight; Row++)
 	{
