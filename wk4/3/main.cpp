@@ -1,6 +1,5 @@
 #include <iostream>
 #include <iomanip>
-#include <fstream>
 #include <cmath>
 using namespace std;
 
@@ -38,17 +37,18 @@ int main(){
 
 	ShowMatrix(4, 4, delta);
 
-	float C[256];
-	CreateHadamard(16, C);
-	ShowMatrix(16, 16,  C);
-	for (int i = 0; i < 256; i ++){
-		C[i] = C[i] * 1 / 4;
+	float C[64];
+	CreateHadamard(8, C);
+	ShowMatrix(8, 8,  C);
+	for (int i = 0; i < 64; i ++){
+		C[i] = C[i] * 1 / (2 * sqrt(2));
 	}
-	float CT[256];
-	Transpose(16, 16, C, CT);
-	float result[256];
-	MatrixMult(16, 16, 16, C, CT, result);
-	ShowMatrix(16, 16,  result);
+	float CT[64];
+	Transpose(8, 8, C, CT);
+	float result[64];
+	MatrixMult(8, 8, 8, C, CT, result);
+	ShowMatrix(8, 8,  result);
+	
 	return 0;
 }
 
@@ -88,12 +88,6 @@ void Transpose(int M, int N, float *A, float *AT){
 void CreateHadamard(int N, float* A){
 	
 	int size = pow(N/2, 2);
-
-	if (N % 2 != 0){
-		cout << "N must be power of 2." << endl;
-		return;
-	}
-
 	float *HN = new float [size];
 
 	if (N == 2)
