@@ -6,6 +6,8 @@ using namespace std;
 void ShowMatrix(int M, int N, float *A);
 // Sprint 2
 void MatrixMult(int M, int N, int P, float *A, float *B, float *C);
+// Sprint 4
+void Transpose(int M, int N, float *A, float *AT);
 
 int main(){
 	// Sprint 1
@@ -20,14 +22,6 @@ int main(){
 	MatrixMult(3, 2, 2, A, B, C);
 	ShowMatrix(3, 2, C);
 
-	// Sprint 3
-	float values[]={	0.5, 0.5, 0.5, 0.5, 
-				0.5, 0.5, -0.5, -0.5, 
-				0.5, -0.5, -0.5 ,0.5, 
-				0.5, -0.5, 0.5, -0.5};
-	float *C0, *C1, *C2, *C3;
-	float delta[16];
-	cout << C0 << " " << C0 + 4;
 	return 0;
 }
 
