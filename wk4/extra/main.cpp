@@ -20,46 +20,55 @@ void Transpose(int M, int N, float *A, float *AT);
 void CreateHadamard(int N, float* A);
 
 int main(){
+	
+    waveHeader myHeader;
+	float f_s = (float)myHeader.sampleRate;
+	float dt = 1/f_s;
+	
 	ifstream myData ("Beatles.wav", ios::binary | ios::in);
     if (!myData){
 		cout << "Cannot access 'Beatles.wav'." << endl;
 		return -1;
 	}
-    waveHeader myHeader;
-	float f_s = (float)myHeader.sampleRate;
-	int oneSecLength = myHeader.sampleRate * myHeader.numChannels;
-	float *oneSecData = new float[oneSecLength];
-	myData.read((char*)oneSecData, sizeof(float) * oneSecLength);
-	myData.read((char*)oneSecData, sizeof(float) * oneSecLength);
-	myData.read((char*)oneSecData, sizeof(float) * oneSecLength);
-	myData.read((char*)oneSecData, sizeof(float) * oneSecLength);
-	myData.read((char*)oneSecData, sizeof(float) * oneSecLength);
-	myData.read((char*)oneSecData, sizeof(float) * oneSecLength);
-	myData.read((char*)oneSecData, sizeof(float) * oneSecLength);
-	cout << myHeader.sampleRate << " " << myHeader.numChannels << " " << oneSecLength << endl;
-	int matrixSize = pow(2, 10);
-	int arraySize = pow(matrixSize,2);
-	int startPoint = oneSecLength - matrixSize * myHeader.numChannels - 100;
+	myData.read((char*)&myHeader, sizeof(waveHeader));
+
+	int oneSecLength = myHeader.sampleRate * myHeader.numChannels; // 1초 길이
+
+	float *stereoData = new float[oneSecLength];
+
+	myData.read((char*)stereoData, sizeof(float) * oneSecLength);
+
+	int matrixSize = pow(2, 6); // N
+	int arraySize = matrixSize * matrixSize; // N^2
+
 	ofstream out1 ("dataread.txt");
-	
-	float *inputData = new float [oneSecLength];
-	for (int i = 0; i < oneSecLength; i ++){
-		inputData[i] = oneSecData[startPoint + i * 2]; // 한 개 채널의 데이터만 변환하기 위해
-	}
-	for (int i = 0; i < matrixSize; i ++){
-		out1 << inputData[i] << " ";
-	}
-	float *C = new float [arraySize];
-	CreateHadamard(matrixSize, C);
-	for (int i = 0; i < arraySize; i ++){
-		C[i] = C[i] * 1 / sqrt(matrixSize);
+
+	float *monoData = new float [arraySize];
+	for (int i = 0; i < arraySize * 2; i ++){
+		if (i % 2 == 0)
+			monoData[i / 2] = stereoData[i]; // 한 개 채널의 데이터 분리
 	}
 
+	for (int i = 0; i < arraySize; i ++){
+		out1 << monoData[i] << " ";
+	}
+
+	float *C = new float [arraySize];
+	CreateHadamard(matrixSize, C);
+
+	// normalize
+	for (int i = 0; i < arraySize; i ++){
+		C[i] = C[i] * (1 / sqrt(matrixSize));
+	}
+	
 	float *result = new float [arraySize];
-	MatrixMult(matrixSize, matrixSize, 1, result, oneSecData, result);
+
+	MatrixMult(matrixSize, matrixSize, matrixSize, C, monoData, result);
+
 	ofstream out ("output.txt");
 	for (int i = 0; i < arraySize; i ++){
-		out << result[i] << " ";
+		// i 자리에 어떤거?
+		out << i << " " << abs(result[i]) << endl;
 	}
 
 	return 0;
