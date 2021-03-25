@@ -4,16 +4,10 @@
 #include <cmath>
 using namespace std;
 
+#define PI 3.141592
+
 float H2[4] = {1, 1, 1, -1};
-class waveHeader{
-public:
-    waveHeader() {};
-    int chunckID, chunkSize, format, subChunk1ID, subChunk1size;
-    short audioFormat, numChannels;
-    int sampleRate, byteRate;
-    short blockAlign, bitsPerSample;
-    int subChunk2ID, subChunk2size;
-};
+
 void ShowMatrix(int M, int N, float *A);
 void MatrixMult(int M, int N, int P, float *A, float *B, float *C);
 void Transpose(int M, int N, float *A, float *AT);
@@ -21,56 +15,66 @@ void CreateHadamard(int N, float* A);
 
 int main(){
 	
-    waveHeader myHeader;
-	float f_s = (float)myHeader.sampleRate;
-	float dt = 1/f_s;
+	int matrixSize = pow(2, 8); // N 
+	int arraySize = matrixSize * matrixSize;
 	
-	ifstream myData ("Beatles.wav", ios::binary | ios::in);
-    if (!myData){
-		cout << "Cannot access 'Beatles.wav'." << endl;
-		return -1;
-	}
-	myData.read((char*)&myHeader, sizeof(waveHeader));
+	float dt = 0.01;
+	float *inputSig = new float [matrixSize];
+	
+	
+	ofstream out ("originalsignal.txt");
 
-	int oneSecLength = myHeader.sampleRate * myHeader.numChannels; // 1초 길이
-
-	float *stereoData = new float[oneSecLength];
-
-	myData.read((char*)stereoData, sizeof(float) * oneSecLength);
-
-	int matrixSize = pow(2, 6); // N
-	int arraySize = matrixSize * matrixSize; // N^2
-
-	ofstream out1 ("dataread.txt");
-
-	float *monoData = new float [arraySize];
-	for (int i = 0; i < arraySize * 2; i ++){
-		if (i % 2 == 0)
-			monoData[i / 2] = stereoData[i]; // 한 개 채널의 데이터 분리
-	}
-
-	for (int i = 0; i < arraySize; i ++){
-		out1 << monoData[i] << " ";
+	for (int i = 0; i < matrixSize; i ++){
+		inputSig[i] =100 * (sin(2 * PI * i * dt) + sin(4 * PI * i * dt) + sin(8 * PI * i * dt));
+		out << i << "\t" << inputSig[i] << endl;
 	}
 
 	float *C = new float [arraySize];
+	float *CA = new float [arraySize];
 	CreateHadamard(matrixSize, C);
-
-	// normalize
 	for (int i = 0; i < arraySize; i ++){
-		C[i] = C[i] * (1 / sqrt(matrixSize));
+		C[i] = C[i] * 1 / sqrt(matrixSize);
 	}
+
+	MatrixMult(matrixSize, matrixSize, 1, C, inputSig, CA);
+	ofstream out2 ("transformedsignal1.txt");
+
+	for (int i = 0; i < matrixSize; i ++){
+
+		out2 << i << "\t" << CA[i] << endl;
+	}
+	int count = 0;
+	for (int i = 0; i < matrixSize; i ++){
+		if (abs(CA[i]) < 30){
+			CA[i] = 0;
+			count ++;
+		}
+	}
+	cout << "Deleted " << count << " datas." << endl;
+	ofstream out3 ("transformedsignal2.txt");
+
+	for (int i = 0; i < matrixSize; i ++){
+
+		out3 << i << "\t" << CA[i] << endl;
+	}
+	float *CT = new float [arraySize];
+	float *result = new float [matrixSize];
+	Transpose(matrixSize, matrixSize, C, CT);
+	MatrixMult(matrixSize, matrixSize, 1, CT, CA, result);
+
+	ofstream out4 ("reconstrutedsignal.txt");
+
+	for (int i = 0; i < matrixSize; i ++){
+
+		out4 << i << "\t" << result[i] << endl;
+	}
+
+	delete[] inputSig;
+	delete[] C;
+	delete[] CA;
+	delete[] CT;
+	delete[] result;
 	
-	float *result = new float [arraySize];
-
-	MatrixMult(matrixSize, matrixSize, matrixSize, C, monoData, result);
-
-	ofstream out ("output.txt");
-	for (int i = 0; i < arraySize; i ++){
-		// i 자리에 어떤거?
-		out << i << " " << abs(result[i]) << endl;
-	}
-
 	return 0;
 }
 
