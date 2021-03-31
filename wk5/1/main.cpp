@@ -3,15 +3,16 @@
 #include <Eigen/Dense>
 #include <Eigen/LU>
 using namespace Eigen;
+using namespace std;
 
 int main(){
 	Matrix3d A;
 	Matrix3d IA;
 	Vector3d B, C;
 
-	std::ifstream inputData("data2.txt");
+	ifstream inputData("data2.txt");
 	if (inputData.fail()){
-		std::cout << "Cannot access 'data.txt'" << std::endl;
+		cout << "Cannot access 'data.txt'" << endl;
 		return -1;
 	}
 	int N;
@@ -40,11 +41,11 @@ int main(){
 	B[0] = sum_y; B[1] = sum_xy; B[2] = sum_x2y;
 	IA = A.inverse();
 	C = IA * B;
-	std::ofstream outputData("data2result.txt");
 
-	for (int i = 0; i < 3; i++) {
-		outputData << C[i] << " ";
-	}
+	cout << C << endl;
+
+	ofstream outputData("data2result.txt");
+	outputData << C;
 	outputData.close();
 
 	return 0;

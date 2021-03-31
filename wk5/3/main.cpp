@@ -4,29 +4,30 @@
 #include <Eigen/Dense>
 #include <Eigen/LU>
 using namespace Eigen;
-typedef Matrix<double, 6, 6> Matrix6d;
-typedef Matrix<double, 6, 1> Vector6d;
+using namespace std;
+typedef Matrix<float, 6, 6> Matrix6d;
+typedef Matrix<float, 6, 1> Vector6d;
 
 int main(){
 	Matrix6d A;
 	Matrix6d IA;
 	Vector6d B, C;
 
-	std::ifstream inputData("4fit_data_5th.txt");
+	ifstream inputData("4fit_data_5th.txt");
 	if (inputData.fail()){
-		std::cout << "Cannot access '4fit_data_5th.txt'" << std::endl;
+		cout << "Cannot access '4fit_data_5th.txt'" << endl;
 		return -1;
 	}
 	int N = 100;
 	char dummy;
-	double *x = new double [N];
-	double *y = new double [N];
+	float *x = new float [N];
+	float *y = new float [N];
 	for (int i = 0; i < N; i ++)
 		inputData >> x[i] >> dummy >> y[i];
 	inputData.close();
 
-	double sum_x, sum_x2, sum_x3, sum_x4, sum_x5, sum_x6, sum_x7, sum_x8, sum_x9, sum_x10;
-	double sum_y, sum_xy, sum_x2y, sum_x3y, sum_x4y, sum_x5y;
+	float sum_x, sum_x2, sum_x3, sum_x4, sum_x5, sum_x6, sum_x7, sum_x8, sum_x9, sum_x10;
+	float sum_y, sum_xy, sum_x2y, sum_x3y, sum_x4y, sum_x5y;
 	sum_x = sum_x2 = sum_x3 = sum_x4 = sum_x5 = sum_x6 = sum_x7 = sum_x8 = sum_x9 = sum_x10 = 0;
 	sum_y = sum_xy = sum_x2y = sum_x3y = sum_x4y = sum_x5y = 0;
 
@@ -58,12 +59,13 @@ int main(){
 	B[0] = sum_y; B[1] = sum_xy; B[2] = sum_x2y; B[3] =sum_x3y, B[4] =sum_x4y, B[5] =sum_x5y;
 	IA = A.inverse();
 	C = IA * B;
-	std::ofstream outputData("result.txt");
 
-	for (int i = 0; i < 6; i++) {
-		outputData << C[i] << " ";
-	}
+	cout << C << endl;
+
+	ofstream outputData("result.txt");
+	outputData << C;
 	outputData.close();
+
 
 	return 0;
 }
