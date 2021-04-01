@@ -18,12 +18,13 @@ int main(){
 		cout << "Cannot access '4fit_data_5th.txt'" << endl;
 		return -1;
 	}
+	
 	int N = 100;
 	char dummy;
 	float *x = new float [N];
 	float *y = new float [N];
 	for (int i = 0; i < N; i ++)
-		inputData >> x[i] >> dummy >> y[i];
+		inputData >> x[i] >> y[i];
 	inputData.close();
 
 	float sum_x, sum_x2, sum_x3, sum_x4, sum_x5, sum_x6, sum_x7, sum_x8, sum_x9, sum_x10;
@@ -60,7 +61,12 @@ int main(){
 	IA = A.inverse();
 	C = IA * B;
 
-	cout << C << endl;
+	cout << "Matrix A: " << endl;
+	cout << A << endl << endl;
+	cout << "Matrix B: " << endl;
+	cout << B << endl << endl;
+	cout << "Matrix C: " << endl;
+	cout << C << endl << endl;
 
 	ofstream outputData("result.txt");
 	outputData << C;

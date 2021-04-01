@@ -5,6 +5,8 @@
 using namespace Eigen;
 using namespace std;
 
+double CalcError(int dataSize, double* y, double* y_fit);
+
 int main(){
 	Matrix3d A;
 	Matrix3d IA;
@@ -12,9 +14,10 @@ int main(){
 
 	ifstream inputData("data2.txt");
 	if (inputData.fail()){
-		cout << "Cannot access 'data.txt'" << endl;
+		cout << "Cannot access input file." << endl;
 		return -1;
 	}
+	
 	int N;
 	inputData >> N;
 	float *x = new float [N];
@@ -41,12 +44,28 @@ int main(){
 	B[0] = sum_y; B[1] = sum_xy; B[2] = sum_x2y;
 	IA = A.inverse();
 	C = IA * B;
-
-	cout << C << endl;
+	cout << "Matrix A: " << endl;
+	cout << A << endl << endl;
+	cout << "Matrix B: " << endl;
+	cout << B << endl << endl;
+	cout << "Matrix C: " << endl;
+	cout << C << endl << endl;
 
 	ofstream outputData("data2result.txt");
-	outputData << C;
+	for (float i = -4; i <= 8; i += 0.01){
+		outputData << i << " " << C[0] * i * i + C[1] * i + C[2] << endl;
+	}
 	outputData.close();
 
 	return 0;
+}
+
+double CalcError(int dataSize, double* y, double* y_fit){
+	double error;
+	for (int i = 0; i < dataSize; i ++){
+		error += abs(y_fit[i] - y[i]) / y[i];
+	}
+	error = error / double(dataSize);
+
+	return error;
 }

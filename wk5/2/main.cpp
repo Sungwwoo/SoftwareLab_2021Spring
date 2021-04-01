@@ -5,6 +5,7 @@
 #include <Eigen/LU>
 using namespace Eigen;
 using namespace std;
+
 int main(){
 	Matrix2d A;
 	Matrix2d IA;
@@ -44,9 +45,16 @@ int main(){
 	IA = A.inverse();
 	C = IA * B;
 	ofstream outputData("datae_result.txt");
-	cout << C << endl;
 	C[1] = exp(C[1]);
-	outputData << C;
+	cout << "Matrix A: " << endl;
+	cout << A << endl << endl;
+	cout << "Matrix B: " << endl;
+	cout << B << endl << endl;
+	cout << "Matrix C: " << endl;
+	cout << C << endl << endl;
+	for (float i = -7; i <= 10; i += 0.01){
+		outputData << i << " " << C[1] * exp(C[0] * i) << endl;
+	}
 	outputData.close();
 
 	return 0;
