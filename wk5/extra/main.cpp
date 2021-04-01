@@ -7,7 +7,7 @@ using namespace Eigen;
 using namespace std;
 
 
-void Polinomial(int order, int dataSize, double* x, double* y, double* y_fit, double* coef);
+void Polynomial(int order, int dataSize, double* x, double* y, double* y_fit, double* coef);
 double CalcError(int dataSize, double* y, double* y_fit);
 
 int main() {
@@ -41,7 +41,7 @@ int main() {
 		iteration ++;
 		double* coef = new double [order + 1];
 		
-		Polinomial(order, dataSize, x, y, y_fit, coef);
+		Polynomial(order, dataSize, x, y, y_fit, coef);
 		error = CalcError(dataSize, y, y_fit);
 		if (error < tolerance){
 			cout << "Found " << order << "-th polinomial equation." << endl;
@@ -64,11 +64,11 @@ int main() {
 			optimalOrder = order;
 		}
 
-		if (isnan(error) | isinf(error) | iteration >= maxIteration){
+		if (isnan(error) || isinf(error) || (iteration >= maxIteration)){
 			cout << endl;
 			double* optimalCoef = new double [optimalOrder + 1];
 			cout << "Found " << optimalOrder << "-th polinomial equation." << endl;
-			Polinomial(optimalOrder, dataSize, x, y, y_fit, optimalCoef);
+			Polynomial(optimalOrder, dataSize, x, y, y_fit, optimalCoef);
 			cout << "C: [";
 			for (int i = 0; i <= optimalOrder; i ++){
 				cout << optimalCoef[i] << " ";
@@ -97,7 +97,7 @@ int main() {
 	return 0;
 }
 
-void Polinomial(int order, int dataSize, double* x, double* y, double* y_fit, double* coef){
+void Polynomial(int order, int dataSize, double* x, double* y, double* y_fit, double* coef){
 	int size = order + 1;
 	MatrixXd A(size, size);
 	MatrixXd IA(size, size);
