@@ -9,7 +9,7 @@ void AffineTransform(int xp, int yp, float* Ai, int* x, int* y);
 
 int main() {
 	int X, Y;
-	unsigned char* originalImage = ReadBmp("sunflower.bmp", &X, &Y);
+	unsigned char* originalImage = ReadBmp("swlab.bmp", &X, &Y);
 
 	if (!originalImage) {
 		cout << "Cannot access input file." << endl;
@@ -51,7 +51,7 @@ int main() {
 		}
 	}
 
-	WriteBmp("TransformedSunflower.bmp", outputImage, X, Y);
+	WriteBmp("swlabresult.bmp", outputImage, X, Y);
 
 	EigenSolver<MatrixXd> es;
 	es.compute(A);
