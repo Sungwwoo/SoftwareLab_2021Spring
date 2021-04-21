@@ -15,6 +15,10 @@ int main(){
 	cout << x1 << endl;
 
 	ofstream output("over_damped.txt");
+	if (output.fail()){
+		cout << "Cannot access output file." << endl;
+		return 2;
+	}
 	output << 0 << " " << x0 << " " << func(0.0) << endl;
 	output << dt << " " << x1 << " " << func(dt) << endl;
 	for (float t = 2 * dt; t < 5.0; t += dt){
