@@ -5,7 +5,7 @@
 #include <cmath>
 using namespace Eigen;
 using namespace std;
-void Polinomial(int order, int dataSize, double* x, double* y, double* coef);
+void Polynomial(int order, int dataSize, double* x, double* y, double* coef);
 double CalcError(int dataSize, double* y, double* y_fit);
 bool CheckError(double error, double tolerance);
 
@@ -32,7 +32,7 @@ int main(){
 	double tolerance = 0.5;
 	int order = 2;
 	double* coef = new double [order + 1];
-	Polinomial(order, dataSize, x, y, coef);
+	Polynomial(order, dataSize, x, y, coef);
 	for (int i = 0; i < dataSize; i ++){
 		for (int j = 0; j < order; j ++){
 		y_fit[i] += coef[j] * pow(x[i], j);
@@ -57,7 +57,7 @@ int main(){
 	return 0;
 }
 
-void Polinomial(int order, int dataSize, double* x, double* y, double* coef){
+void Polynomial(int order, int dataSize, double* x, double* y, double* coef){
 	int size = order + 1;
 	MatrixXd A(size, size);
 	MatrixXd IA(size, size);
