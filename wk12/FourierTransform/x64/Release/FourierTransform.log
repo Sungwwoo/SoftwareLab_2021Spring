@@ -1,0 +1,3 @@
+﻿  FourierTransform.cpp
+C:\Codes\SoftwareLab_2021Spring\wk12\FourierTransform\FourierTransform.cpp(47,9): warning C4101: 'ii' :참조되지 않은 지역 변수입니다.
+  FourierTransform.vcxproj -> C:\Codes\SoftwareLab_2021Spring\wk12\x64\Release\FourierTransform.lib
