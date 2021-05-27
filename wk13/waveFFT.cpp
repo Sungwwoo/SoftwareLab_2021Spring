@@ -18,8 +18,6 @@ public:
 };
 
 int main() {
-	// Sprint 1
-	//ifstream xx("doremi.wav", ios::binary | ios::in);
 	ifstream intputWave("Beatles.wav", ios::binary | ios::in);
 	if (intputWave.fail())
 		return 2;
@@ -31,7 +29,6 @@ int main() {
 	cout << "   bitsPerSample = " << myHeader.bitsPerSample << endl; // 16
 	cout << "   data size = " << myHeader.sampleRate * 16 * myHeader.numChannels * myHeader.bitsPerSample / 8 << endl;
 
-	// Sprint 2: strong frequency at 1 sec
 	FFT spectrum(N);
 	float fs = (float)myHeader.sampleRate;
 	int n1sec = myHeader.sampleRate*myHeader.numChannels;
