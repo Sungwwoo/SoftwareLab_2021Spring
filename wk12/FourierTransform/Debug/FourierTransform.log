@@ -1,0 +1,5 @@
+﻿  DFT1D.cpp
+C:\Codes\SoftwareLab_2021Spring\wk12\FourierTransform\DFT1D.cpp : fatal error C1052: 프로그램 데이터베이스 파일 'C:\Codes\SoftwareLab_2021Spring\wk12\Debug\FourierTransform.pdb'이(가) /DEBUG:fastlink를 사용하여 링커에 의해 생성되었습니다. 컴파일러가 이러한 PDB 파일을 업데이트할 수 없습니다. 해당 파일을 삭제하거나 /Fd를 사용하여 다른 PDB 파일 이름을 지정하세요.
+  Fft1D.cpp
+C:\Codes\SoftwareLab_2021Spring\wk12\FourierTransform\Fft1D.cpp : fatal error C1052: 프로그램 데이터베이스 파일 'C:\Codes\SoftwareLab_2021Spring\wk12\Debug\FourierTransform.pdb'이(가) /DEBUG:fastlink를 사용하여 링커에 의해 생성되었습니다. 컴파일러가 이러한 PDB 파일을 업데이트할 수 없습니다. 해당 파일을 삭제하거나 /Fd를 사용하여 다른 PDB 파일 이름을 지정하세요.
+  코드를 생성하고 있습니다...
