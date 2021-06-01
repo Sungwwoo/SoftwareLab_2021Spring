@@ -1,9 +1,8 @@
-// Author : DougnYoung Suh
-// Date on April 6, 2020
 #include <iostream>
 #include <fstream>
 #include <complex> 
 #include "fft1d.h"
+#include "bmpNew.h"
 const int N = 1024;
 using namespace std;
 
@@ -27,7 +26,7 @@ int main() {
 	cout << "   sampleRate = " << myHeader.sampleRate << endl;    // 22050
 	cout << "   numChannels = " << myHeader.numChannels << endl;  // 2
 	cout << "   bitsPerSample = " << myHeader.bitsPerSample << endl; // 16
-	cout << "   data size = " << myHeader.sampleRate * 16 * myHeader.numChannels * myHeader.bitsPerSample / 8 << endl;
+	cout << "   data size = " << myHeader.sampleRate * myHeader.numChannels * myHeader.bitsPerSample / 8 << endl;
 
 	FFT spectrum(N);
 	float fs = (float)myHeader.sampleRate;
@@ -39,13 +38,20 @@ int main() {
 	int j = n1sec - N * myHeader.numChannels - 100;
 	ofstream output("spectrum.txt");
 	
-	for (int i = 0; i < N; i++) {
-		spectrum.x[i] = complex<float>((float)oneSec[j+i*2],0.0);
-		output << (float)i / fs << "   " << (float)oneSec[j + i * 2] << endl;
+	if (myHeader.numChannels == 2){
+		for (int i = 0; i < N; i++) {
+			spectrum.x[i] = complex<float>((float)oneSec[j+i*2],0.0);
+		}
 	}
+	else{
+		for (int i = 0; i < N; i++) {
+			spectrum.x[i] = complex<float>((float)oneSec[i],0.0);
+		}
+	}
+
 	spectrum.ForwardFFT();
 	for (int i = 0; i < N; i++) {
-		output << (float)i / (float)N * fs << "   " << abs(spectrum.X[i]) << endl;
+		output  << (float)i / fs << " " << spectrum.x[i].real() << " " << (float)i / (float)N * fs << " " << abs(spectrum.X[i])* abs(spectrum.X[i]) << endl;
 	}
 	output.close();
 	intputWave.close();
